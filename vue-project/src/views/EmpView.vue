@@ -8,6 +8,7 @@
 <script>
 import axios  from "axios";
 const url='http://localhost:81/myserver/empSelect';
+const test='string';
 export default {
 data(){ return {employees: [] }; },
     created(){
