@@ -16,7 +16,7 @@
                 <td v-text="emp.employee_id"></td>
                 <td v-text="emp.first_name"></td>
                 <td v-text="emp.last_name"></td>
-                <td><button @click="gotoUpdateForm(emp.employee_id)">수정</button></td>
+                <td><button class="btn btn-primary" @click="gotoUpdateForm(emp.employee_id)">수정</button></td>
             </tr>
         </tbody>
     </table>
