@@ -24,10 +24,9 @@ router.post("/",upload.single('avatar'), (req,res)=>{
     // 첨부파일이 있으면
     let data = {...req.body};
     if(req.file != null){
-        data.filename = req.file.filename;
-        data.uploadfilename = req.file.uploadfilename;
+        data.filename = req.file.originalname;
+        data.uploadfilename = req.file.filename;
     }
-
     mysql.query("insertBoard",data)
     .then(result=>res.send(result));
 });

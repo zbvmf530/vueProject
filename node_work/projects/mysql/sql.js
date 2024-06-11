@@ -7,5 +7,5 @@ module.exports = {
     updateCustomer:`update customers set ? where id = ?`,
     deleteCustomer: `delete from customers where id = ?`,
     ...boardSql,
-    todoSql
+    ...todoSql
 }

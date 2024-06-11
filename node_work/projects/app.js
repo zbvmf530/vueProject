@@ -4,6 +4,7 @@ const app = express();
 const port = 3000;
 const boardRouter = require('./routes/board.js');
 const customerRouter = require('./routes/customer.js');
+const todosRouter = require('./routes/todo.js');
 const fileRouter = require('./routes/file.js');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -22,6 +23,7 @@ app.use(morgan(':method :url :status :res[content-length] :date'));
 
 app.use('/board',boardRouter);
 app.use('/customer',customerRouter);
+app.use('/todo',todosRouter);
 app.use('/file', fileRouter);
 
 app.listen(port,()=>{
