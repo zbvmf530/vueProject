@@ -1,53 +1,46 @@
 const express = require('express');
 const router = express.Router();
+const mysql = require('../mysql/index');
+const multer = require('multer');
+const upload = multer({ dest: 'd:/upload/' });
+router.get("/",  async (req,res)=>{
+    let pageNo;
+    isNaN(Number(req.query.page))
+    ?pageNo  = 0
+    :pageNo = (Number(req.query.page)-1)*10;
 
-let no = 2;
-let board = [
-    {no: 1, title: "testtitle", writer: "kim",content: "testcontent"},
-    {no: 2, title: "testtitle2", writer: "park",content: "testcontent2"}
-];
+    let boardList = await mysql.query("boardList",pageNo)
+                    .then(result=>result);
+    res.send(boardList);
+});
 
-router.get("/",(req,res)=>{
-    
+ router.get("/:no", async (req,res)=>{
+    let board = await mysql.query("getBoard",req.params.no)
+                            .then(result=>result);
     res.send(board);
 });
 
-// const requestTime = function (req, res, next) {
-//     req.requestTime = Date.now()
-//     next()
-//   }
-// router.use(requestTime);
+router.post("/",upload.single('avatar'), (req,res)=>{
+    // 첨부파일이 있으면
+    let data = {...req.body};
+    if(req.file != null){
+        data.filename = req.file.filename;
+        data.uploadfilename = req.file.uploadfilename;
+    }
 
-// router.get('/', (req, res) => {
-//     const date = new Date(req.requestTime);
-//   let responseText = 'Hello World!<br>'
-//   responseText += `<small>Requested at: ${date}</small>`
-//   res.send(responseText)
-// });
-
-router.get("/:no",(req,res)=>{
-    res.send(board[req.params.no-1]);
+    mysql.query("insertBoard",data)
+    .then(result=>res.send(result));
 });
 
-//router.get("",(res,req)=>{});
-router.post("/",(req,res)=>{
-    // console.log(req.body);
-    board.push(req.body);
-    console.log("데이터 추가완료! 추가결과 : ")
-    console.log(board)
-    res.send(board);
-});
 
 router.put("/:no",(req,res)=>{
-    
-   board = board.map(obj=>obj.no == req.params.no?{...obj,...req.body}:obj);
-    res.send(board);
-});
+    mysql.query("updateBoard",[req.body,req.params.no])
+    .then(result=>res.send(result));
+ });
 
-router.delete("/:no",(req,res)=>{
-    // indexOf -> splice
-    board = board.filter(item=>item.no != no);
-    res.send(board);
+ router.delete("/:no",(req,res)=>{
+    mysql.query("deleteBoard",req.params.no)
+    .then(result=>res.send(result));
 });
 
 module.exports = router;

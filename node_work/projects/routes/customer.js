@@ -14,8 +14,8 @@ router.post("/",(req,res)=>{
     
 });
 
-router.put("/:id",(req,res)=>{
-    mysql.query("updateCustomer",[req.body,req.params.id])
+router.put("/",(req,res)=>{
+    mysql.query("updateCustomer",req.body.param)
     .then(result=>res.send(result));
 });
 

@@ -14,3 +14,5 @@ console.log(os.homedir());
 // });
 
 // console.log('1. 콘솔에 출력되는 첫 번째 메시지');  
+
+console.log('username = ' + process.env.USERNAME);

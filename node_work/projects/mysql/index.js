@@ -1,13 +1,13 @@
 const mysql = require('mysql2');
 const sqls = require('./sql');
-
+require('dotenv').config({path:'mysql/.env'});
 const conn ={
-    connectionLimit:10,
-    host:'127.0.0.1',
-    port:'3306',
-    user:'hr',
-    password:'hr',
-    database:'test'
+    connectionLimit: process.env.MYSQL_LIMIT,
+    host: process.env.MYSQL_HOST,
+    port: process.env.MYSQL_PORT,
+    user: process.env.MYSQL_USERNAME,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
 };
 const pool = mysql.createPool(conn);
 function query(alias,values){

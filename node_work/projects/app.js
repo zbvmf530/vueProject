@@ -4,18 +4,25 @@ const app = express();
 const port = 3000;
 const boardRouter = require('./routes/board.js');
 const customerRouter = require('./routes/customer.js');
+const fileRouter = require('./routes/file.js');
 const cors = require('cors');
+const morgan = require('morgan');
+
+
+require('dotenv').config();
 // 폼 쿼리 방식
-//app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 
 // json parser 미들웨어 방식
 app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors());
+app.use(morgan(':method :url :status :res[content-length] :date'));
 
 app.use('/board',boardRouter);
 app.use('/customer',customerRouter);
+app.use('/file', fileRouter);
 
 app.listen(port,()=>{
     console.log(`서버 실행. http://localhost:${port}`);
